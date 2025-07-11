@@ -2,18 +2,18 @@
 
 This project is a conversational AI agent designed to act as a personal assistant. It can hold a conversation, remember context, and manage a persistent to-do list for the user. The project is built using Python, LangChain, and the Google Gemini API.
 
-
+This repository documents the work for the Snello "Welcome Builder!" assignment.
 
 ## Current State: Persistent Memory Implemented
 
 As of the latest commit, the agent has the following core features:
 *   **Conversational Ability**: Can chat with a user.
 *   **Persistent To-Do List**: The to-do list is saved to a `todos.json` file and is reloaded when the agent restarts.
-*   **Persistent Chat History**: The conversation history is saved to a `chat_history.json` file, allowing the agent to remember the context of previous conversations (e.g., the user's name).
+*   **Persistent Chat History**: The conversation history is saved to a `chat_history.json` file, allowing the agent to remember the context of previous conversations (e.g., the users name).
 
 ## Architecture
 
-The agent is currently built using the standard LangChain `AgentExecutor`. This architecture follows the **ReAct (Reasoning and Acting)** model, where the Language Model can reason about a user's request and choose to act by using a set of predefined tools.
+The agent is currently built using the standard LangChain `AgentExecutor`. This architecture follows the **ReAct (Reasoning and Acting)** model, where the Language Model can reason about a users request and choose to act by using a set of predefined tools.
 
 The key components are:
 
@@ -26,30 +26,31 @@ The key components are:
 
 ```mermaid
 graph TD
-    A[User Input] --> B[Agent Executor];
-    B --sends prompt with history--> C[LLM (Gemini)];
-    C --accesses context from--> D[Memory (chat_history.json)];
-    C --"I should use a tool"--> E{Tool Call?};
-    E --Yes--> F[Execute Tool e.g., add_todo];
-    F --reads/writes--> G[Storage (todos.json)];
-    F --returns result--> B;
-    B --sends tool result back to--> C;
-    C --"I now have the answer"--> E;
-    E --No, generate final response--> H[AI Response];
-    H --> I[Output to User];
+    A[User Input] --> B[Agent Executor]
+    B --sends prompt with history--> C[LLM Gemini]
+    C --accesses context from--> D[Memory chat_history.json]
+    C --"decides to use tool"--> E{Tool Call?}
+    E --Yes--> F[Execute Tool]
+    F --reads/writes--> G[Storage todos.json]
+    G --returns result--> F
+    F --returns result--> B
+    B --sends tool result back to--> C
+    C --"has enough info"--> E
+    E --No, generate final response--> H[AI Response]
+    H --> I[Output to User]
 ```
 
 ## How Memory is Stored and Retrieved
 
 Persistence is handled using simple JSON files, making the agent stateful across sessions.
 
-*   **Conversation History**: We use LangChain's `FileChatMessageHistory` (from `langchain_community.chat_message_histories`) configured in `memory.py`. This class automatically saves the entire conversation to `chat_history.json` and loads it back when the agent starts.
+*   **Conversation History**: We use LangChains `FileChatMessageHistory` (from `langchain_community.chat_message_histories`) configured in `memory.py`. This class automatically saves the entire conversation to `chat_history.json` and loads it back when the agent starts.
 
 *   **To-Do List**: The to-do list is stored in `todos.json`. The tool functions in `tools.py` are responsible for all file interactions. They follow a clear **read-modify-write** pattern: they read the current list from the file, modify it in memory, and then write the entire updated list back to the file.
 
 ## How Tool Calls are Defined and Registered
 
-*   **Definition**: Each tool is a Python function in `tools.py` decorated with the **`@tool`** decorator. The function's docstring serves as the description that the LLM uses to decide when to call it.
+*   **Definition**: Each tool is a Python function in `tools.py` decorated with the **`@tool`** decorator. The functions docstring serves as the description that the LLM uses to decide when to call it.
 
 *   **Registration**: In `main.py`, the tool functions are collected into a `tools` list. This list is passed directly to the `initialize_agent` function, making the agent aware of the actions it can perform.
 
