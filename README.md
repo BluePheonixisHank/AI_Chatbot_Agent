@@ -19,13 +19,14 @@ The key components are:
 graph TD
     A[User Input] --> B[Agent Executor]
     B --sends prompt with history--> C[LLM Gemini]
-    C --accesses context from--> D[Memory (chat_history.json)]
-    C --"I should use a tool"--> E{Tool Call?}
-    E --Yes--> F[Execute Tool e.g., add_todo]
-    F --reads/writes--> G[Storage (todos.json)]
+    C --accesses context from--> D[Conversation Memory]
+    C --"decides to use tool"--> E{Tool Call?}
+    E --Yes--> F[Execute Tool]
+    F --reads/writes--> G[To-Do List Storage]
+    G --returns result--> F
     F --returns result--> B
     B --sends tool result back to--> C
-    C --"I now have the answer"--> E
+    C --has enough info--> E
     E --No, generate final response--> H[AI Response]
     H --> I[Output to User]
 ```
