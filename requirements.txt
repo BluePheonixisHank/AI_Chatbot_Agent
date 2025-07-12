@@ -1,3 +1,4 @@
 langchain
-google-generativeai
+langchain-community
+langchain-google-genai
 python-dotenv
