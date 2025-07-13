@@ -2,7 +2,7 @@
 from langchain.agents import initialize_agent, AgentType
 from agent import get_llm
 from memory import get_memory
-from tools import add_todo, list_todos, remove_todo
+from tools import add_todo, list_todos, remove_todo, smart_remove_todo
 
 def main():
     """Runs the main chatbot command-line interface."""
@@ -11,7 +11,7 @@ def main():
     
     llm = get_llm()
     memory = get_memory()
-    tools = [add_todo, list_todos, remove_todo]
+    tools = [smart_remove_todo, add_todo, list_todos, remove_todo]
 
     # Initialize the agent using the stable AgentExecutor
     agent = initialize_agent(
