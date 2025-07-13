@@ -2,7 +2,7 @@
 from langchain.agents import initialize_agent, AgentType
 from agent import get_llm
 from memory import get_memory
-from tools import add_todo, list_todos, remove_todo, smart_remove_todo
+from tools import add_todo, list_todos, smart_remove_todo, count_todos
 
 def main():
     """Runs the main chatbot command-line interface."""
@@ -11,17 +11,15 @@ def main():
     
     llm = get_llm()
     memory = get_memory()
-    tools = [smart_remove_todo, add_todo, list_todos, remove_todo]
+    # In main.py
+    tools = [add_todo, list_todos, smart_remove_todo, count_todos]
 
-    # Initialize the agent using the stable AgentExecutor
-    # The final, robust version
     agent = initialize_agent(
         tools=tools,
         llm=llm,
         agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,
         memory=memory,
         verbose=True,
-        # This is the key addition that fixes the parsing errors
         handle_parsing_errors=True
     )
 
@@ -32,11 +30,10 @@ def main():
             break
 
         try:
-            # The agent returns a dictionary, we are interested in the 'output' key
             response = agent.run(user_input)
             print(f"Agent: {response}")
         except Exception as e:
-            print(f"An error occurred: {e}")
+            print(f"A critical error occurred: {e}")
 
 if __name__ == "__main__":
     main()
