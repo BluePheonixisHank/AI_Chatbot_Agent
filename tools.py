@@ -32,11 +32,19 @@ def add_todo(item: str) -> str:
     return f"'{item}' is already on your to-do list."
 
 @tool
-def list_todos(dummy_arg: str = "") -> List[str]:
+def list_todos(dummy_arg: str = "") -> str:
     """
-    Lists all the items on the user's to-do list. Use this when the user wants to see their current tasks.
+    Lists all the items on the user's to-do list. Returns a single, formatted string.
+    Use this when the user wants to see their current tasks.
     """
-    return read_todos()
+    todos = read_todos()
+    if not todos:
+        return "Your to-do list is empty."
+    
+    # Format the list into a clean, human-readable string with newlines
+    # This is what the LLM can easily understand and present.
+    formatted_list = "\n".join(f"- {item}" for item in todos)
+    return formatted_list
 
 # We keep the original remove_todo tool as a fallback, but we remove its docstring
 # so the LLM doesn't see it as a primary option.

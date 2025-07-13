@@ -14,12 +14,15 @@ def main():
     tools = [smart_remove_todo, add_todo, list_todos, remove_todo]
 
     # Initialize the agent using the stable AgentExecutor
+    # The final, robust version
     agent = initialize_agent(
         tools=tools,
         llm=llm,
         agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,
         memory=memory,
-        verbose=True  # Set to False for a cleaner output
+        verbose=True,
+        # This is the key addition that fixes the parsing errors
+        handle_parsing_errors=True
     )
 
     while True:

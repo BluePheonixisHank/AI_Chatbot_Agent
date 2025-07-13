@@ -9,7 +9,7 @@ The agent is built using the standard LangChain `AgentExecutor`. This architectu
 The key components are:
 
 1.  **LLM (Language Model)**: **Google Gemini 2.5 Pro** is used as the "brain" of the agent to drive conversation and make decisions.
-2.  **Tools**: Python functions (`add_todo`, `list_todos`, `remove_todo`) that the agent can execute to interact with the to-do list stored on the file system.
+2.  **Tools**: Python functions (`add_todo`, `list_todos`, `remove_todo`, `smart_remove_todo`) that the agent can execute to interact with the to-do list stored on the file system. smart_remove_todo tool uses a secondary LLM call to intelligently interpret vague user requests (e.g., "I'm done with the docs") and match them to the correct to-do item, providing a significantly smoother user experience.
 3.  **Memory**: `ConversationBufferMemory` is used to store the history of the conversation. This memory is explicitly configured with `FileChatMessageHistory` to ensure it is persistent between sessions.
 4.  **Agent Executor**: The main engine from LangChain (`initialize_agent`) that orchestrates the interaction between the LLM, Memory, and Tools, creating the agents response loop.
 
