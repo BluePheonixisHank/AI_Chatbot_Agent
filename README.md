@@ -83,10 +83,11 @@ This project includes both a modern web interface (recommended) and a traditiona
 ## Architectural Considerations & Future Improvements
 
 ### Deprecation Warnings
-When running the application, you may see `LangChainDeprecationWarning` messages related to `AgentExecutor`. This is expected. The LangChain ecosystem is evolving rapidly towards its LangGraph library. While a full LangGraph refactor was explored during development, it introduced significant dependency instability. Therefore, the stable and robust `AgentExecutor` was chosen to ensure a complete and functional project that meets all assignment requirements. This was a deliberate engineering trade-off between using bleeding-edge architecture and delivering a reliable product.
+When running the application, you may see `LangChainDeprecationWarning` messages related to `AgentExecutor`. This is expected. The LangChain ecosystem is evolving rapidly towards its LangGraph library. While a full LangGraph refactor was explored during development, it introduced significant dependency instability. Therefore, the stable `AgentExecutor` was chosen to ensure a complete and functional project. 
 
 ### Future Improvements
 
 *   **Priority System**: A great next step would be to add a priority system (e.g., high, normal, low) to tasks. This would involve upgrading the `todos.json` data model to a list of objects and enhancing the `add_todo` tool to parse priorities from the users request, making the agent even more useful.
+*   **Reminders and Due-Dates**: After implementing the priority system, another useful implementation is enabling the users to set reminders and due-dates for the tasks. 
 *   **Multi-User Support**: The current file-based storage is inherently single-user. To support multiple users, the architecture could be upgraded to use a database like SQLite. All data (conversation history, to-do lists) would be keyed by a unique `user_id`.
 *   **Streaming Responses**: In the Streamlit UI, agent responses currently appear all at once. The UX could be improved by "streaming" the response token-by-token, making the agent feel more responsive.
