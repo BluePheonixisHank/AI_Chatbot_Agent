@@ -1,6 +1,6 @@
-# Snello Agentic Chatbot
+# Agentic AI to-do Assistant
 
-This project is a conversational AI agent designed to act as a personal assistant, built to fulfill the "Welcome Builder!" assignment. It can hold a conversation, remember context across sessions, manage a persistent to-do list using intelligent tools, and is presented through a clean, user-friendly web interface.
+This project is a conversational AI agent designed to act as a personal assistant. It can hold a conversation, remember context across sessions, manage a persistent to-do list using intelligent tools, and is presented through a clean, user-friendly web interface.
 
 ## Core Features
 

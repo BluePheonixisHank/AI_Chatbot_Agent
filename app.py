@@ -7,7 +7,7 @@ from tools import add_todo, list_todos, smart_remove_todo, count_todos
 
 # --- Page Configuration ---
 st.set_page_config(
-    page_title="Snello AI To-Do Assistant",
+    page_title="Agentic AI To-Do Assistant",
     page_icon="✅",
     layout="wide"
 )
@@ -34,7 +34,7 @@ def get_agent():
     )
 
 # --- App Layout and Logic ---
-st.title("✅ Snello AI To-Do Assistant")
+st.title("✅ Agentic AI To-Do Assistant")
 st.write("Welcome! I'm your personal assistant. I can chat with you and manage your to-do list.")
 
 # Initialize or retrieve the agent from the cache
